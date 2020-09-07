@@ -1,0 +1,32 @@
+version: '3'
+
+volumes:
+  ignore_dir:
+
+services:
+  app:
+    build: .
+    command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - ./:/app
+      - ignore_dir:/app/tmp
+      - ignore_dir:/app/public
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    depends_on:
+      - db
+    environment:
+      RAILS_ENV: development
+
+  db:
+    restart: always
+    image: postgres:11
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./tmp/db/data:/var/lib/postgresql/data
