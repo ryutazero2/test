@@ -15,7 +15,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
 
 ENV APP_ROOT /app
 WORKDIR ${APP_ROOT}
-
+            
 COPY ./Gemfile ${APP_ROOT}/
 COPY ./Gemfile.lock ${APP_ROOT}/
 
